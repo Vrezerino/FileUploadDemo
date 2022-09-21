@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+	<meta charset="UTF-8" />
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+	<title>File manager</title>
+</head>
+
+<body>
+	<div id="talltabs-maroon">
+		<ul>
+			<li><a href="#">One</a></li>
+			<li class="active"><a href="#">Two</a></li>
+			<li><a href="#">Three</a></li>
+			<li><a href="#">Four</a></li>
+		</ul>
+	</div>
+
+	<div class="container">
+		<h2>File manager</h2>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Filename</th>
+					<th>Size</th>
+					<th>Type</th>
+					<th>Date posted</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${files.empty}">
+					<td colspan="4">No files</td>
+				</tr>
+				<tr th:each="file : ${files}">
+					<td><a th:href="@{/files/{id}(id=${file.id})}" th:text="${file.name}">file name</a></td>
+					<td th:text="${file.contentLength}">Content length</td>
+					<td th:text="${file.contentType}">Content type</td>
+					<td th:text="${file.date}">Date posted</td>
+					<td>
+						<form th:action="@{/files/{id}(id=${file.id})}" th:method="delete"><input type="submit" value="Delete" />
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="postFile">
+		<form method="POST" action="/files" enctype="multipart/form-data">
+			<input type="file" name="file" id="file" />
+			<input type="submit" value="Add!" />
+		</form>
+	</div>
+</body>
+
+</html>
